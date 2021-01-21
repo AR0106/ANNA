@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RuntimeIdentifiers>
+      win-x86;win-x64;linux-x64;linux-arm;linux-arm64;osx-x64;
+    </RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.29" />
+    <PackageReference Include="IBM.Watson.TextToSpeech.v1" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\reforce_annaBotML.Model\reforce_annaBotML.Model.csproj" />
+  </ItemGroup>
+
+</Project>
