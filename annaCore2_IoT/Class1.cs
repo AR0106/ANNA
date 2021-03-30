@@ -1,17 +1,12 @@
-﻿using Reforce_annaBotML.Model;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using IBM.Watson.TextToSpeech.v1;
-using System.IO;
-using IBM.Cloud.SDK.Core.Authentication.Iam;
-using System.Threading;
-using System.Runtime.InteropServices;
-using Raylib_cs;
-using static Raylib_cs.Raylib;
+using Reforce_annaBotML.Model;
+using System.Text;
 
-namespace annaCore2
+namespace annaCore2_IoT
 {
-    internal class Program
+    public class Class1
     {
         public static string inputType()
         {
@@ -61,22 +56,12 @@ namespace annaCore2
             Console.WriteLine(voices.Response);
 
             var speechResult = speechService.Synthesize(saying, "audio/wav", voice);
-            using (FileStream stream = File.Create("anna.wav"))
+            using (FileStream stream = File.Create(saying + ".wav"))
             {
                 speechResult.Result.WriteTo(stream);
                 stream.Close();
                 speechResult.Result.Close();
             }
-
-            InitAudioDevice();
-            Music audio = LoadMusicStream("anna.wav");
-            PlayMusicStream(audio);
-
-            while (GetMusicTimePlayed(audio) <= GetMusicTimeLength(audio))
-            {
-                UpdateMusicStream(audio);
-            }
-
         }
 
         private static void Main(string[] args)
@@ -97,7 +82,7 @@ namespace annaCore2
                         return;
 
                     case "world":
-                        AnnaSay("en-US_AllisonV3Voice", "I'm on Earth!");
+                        Console.WriteLine("I'm on Earth!");
                         return;
 
                     case "news":
