@@ -34,7 +34,7 @@ namespace annaMLTools
             {
                 Console.WriteLine("Please Enter the Path to your Dataset");
                 MODEL_PATH = Console.ReadLine();
-                retrainModel();
+                RetrainModel();
             }
             else if (userInput == "help" || userInput == "commands")
             {
@@ -65,7 +65,7 @@ namespace annaMLTools
             return trainingPipeline;
         }
 
-        private static void retrainModel()
+        private static void RetrainModel()
         {
             MLContext mlContext = new MLContext();
 

@@ -48,33 +48,62 @@ namespace annaCore2
 
         private static string[] builtinCommands = { "hello", "world", "news", "weather", "aps" };
 
-        public static void AnnaSay(string voice, string saying)
+        public static int AnnaSay(string voice, string saying)
         {
-            IamAuthenticator ibmAuth = new IamAuthenticator(
-                apikey: "WpUJamCM8z2Q_-X5i283MIeXodlGY2vJahX7rasOW6ae"
-                );
-
-            TextToSpeechService speechService = new TextToSpeechService(ibmAuth);
-            speechService.SetServiceUrl("https://api.us-south.text-to-speech.watson.cloud.ibm.com/instances/bbfeff9a-0fa9-48db-9ee5-4a291306bc0a");
-
-            var voices = speechService.ListVoices();
-            Console.WriteLine(voices.Response);
-
-            var speechResult = speechService.Synthesize(saying, "audio/wav", voice);
-            using (FileStream stream = File.Create("anna.wav"))
+            try
             {
-                speechResult.Result.WriteTo(stream);
-                stream.Close();
-                speechResult.Result.Close();
+                IamAuthenticator ibmAuth = new IamAuthenticator(
+                    apikey: "WpUJamCM8z2Q_-X5i283MIeXodlGY2vJahX7rasOW6ae"
+                    );
+
+                TextToSpeechService speechService = new TextToSpeechService(ibmAuth);
+                speechService.SetServiceUrl("https://api.us-south.text-to-speech.watson.cloud.ibm.com/instances/bbfeff9a-0fa9-48db-9ee5-4a291306bc0a");
+
+                var voices = speechService.ListVoices();
+                Console.WriteLine(voices.Response);
+
+                var speechResult = speechService.Synthesize(saying, "audio/wav", voice);
+                using (FileStream stream = File.Create("anna.wav"))
+                {
+                    speechResult.Result.WriteTo(stream);
+                    stream.Close();
+                    speechResult.Result.Close();
+                }
+
+                InitAudioDevice();
+                Music audio = LoadMusicStream("anna.wav");
+                PlayMusicStream(audio);
+
+                float i = GetMusicTimeLength(audio);
+                float j = GetMusicTimePlayed(audio);
+                float previousTimePlayed = 0;
+
+                int repeatCounter = 0;
+
+                Console.WriteLine(i);
+
+                while (GetMusicTimePlayed(audio) <= i)
+                {
+                    if (GetMusicTimePlayed(audio) == previousTimePlayed)
+                    {
+                        repeatCounter++;
+                        if (repeatCounter == 1100)
+                        {
+                            break;
+                        }
+                    }
+                    Console.WriteLine(GetMusicTimePlayed(audio));
+                    Console.WriteLine(i);
+                    Console.WriteLine(repeatCounter);
+                    previousTimePlayed = GetMusicTimePlayed(audio);
+                    UpdateMusicStream(audio);
+                }
+
+                return 0;
             }
-
-            InitAudioDevice();
-            Music audio = LoadMusicStream("anna.wav");
-            PlayMusicStream(audio);
-
-            while (GetMusicTimePlayed(audio) <= GetMusicTimeLength(audio))
+            catch (Exception e)
             {
-                UpdateMusicStream(audio);
+                return 1;
             }
 
         }
