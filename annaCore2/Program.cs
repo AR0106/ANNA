@@ -10,6 +10,8 @@ using System.IO;
 using static Raylib_cs.Raylib;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace ANNA
 {
@@ -62,8 +64,6 @@ namespace ANNA
                 TextToSpeechService speechService = new TextToSpeechService(ibmAuth);
                 speechService.SetServiceUrl("https://api.us-south.text-to-speech.watson.cloud.ibm.com/instances/bbfeff9a-0fa9-48db-9ee5-4a291306bc0a");
 
-                var voices = speechService.ListVoices();
-
                 var speechResult = speechService.Synthesize(sentence, "audio/wav", voice);
                 
                 // Write TTS Service Return Bytes to ".wav" File
@@ -79,30 +79,19 @@ namespace ANNA
                 Music audio = LoadMusicStream("anna.wav");
                 PlayMusicStream(audio);
 
-                float i = GetMusicTimeLength(audio);
+                float i = GetMusicTimeLength(audio) / 30000;
                 float j = GetMusicTimePlayed(audio);
                 float previousTimePlayed = 0;
-
-                int repeatCounter = 0;
 
                 // Play The Audio File
                 while (GetMusicTimePlayed(audio) <= i)
                 {
-                    // Make Sure the Audio File Stops at a Reasonable Time
-                    if (GetMusicTimePlayed(audio) == previousTimePlayed)
-                    {
-                        repeatCounter++;
-                        if (repeatCounter == 1100)
-                        {
-                            break;
-                        }
-                    }
-
                     previousTimePlayed = GetMusicTimePlayed(audio);
                     UpdateMusicStream(audio);
                 }
 
-                // Return "OK"
+                UnloadMusicStream(audio);
+
                 return 0;
             }
             catch (Exception e)
@@ -111,8 +100,7 @@ namespace ANNA
                 Console.WriteLine(e.StackTrace);
                 Console.WriteLine(e.Source);
                 Console.WriteLine(e.InnerException);
-                
-                // Return "Something Went Wrong"
+
                 return 1;
             }
 
@@ -166,7 +154,6 @@ namespace ANNA
             /*}
             catch (Exception e)
             {
-                return 1;
                 throw;
             }*/
         }
@@ -187,14 +174,11 @@ namespace ANNA
                 switch (refInput)
                 {
                     case "hello":
-                        if (AnnaSay("en-US_AllisonV3Voice", "Hi! I'm Anna!") == 1)
-                        {
-                            break;
-                        }
+                        AnnaSay("en-US_AllisonV3Voice", "Hi! I'm Anna!");
                         return;
 
                     case "world":
-                        AnnaSay("en-US_AllisonV3Voice", "I'm on Earth!");
+                        AnnaSay("en-US_AllisonV3Voice", "I'm on Earth! What world are you on?");
                         return;
 
                     case "install":

@@ -15,7 +15,6 @@ namespace TestExtension
         public void OnRun()
         {
             Console.WriteLine("Goodbye Mr. Stark");
-            ANNA.
         }
 
         public string[] SingleWordActions()
