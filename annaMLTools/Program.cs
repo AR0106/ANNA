@@ -3,9 +3,9 @@ using Microsoft.ML.Trainers;
 using Reforce_annaBotML.Model;
 using System;
 
-namespace annaMLTools
+namespace AnnaMLTools
 {
-    internal class Program
+    public class Program
     {
         public static string MODEL_PATH = @"D:\Reforce ANNA\reforce_annaBotML.Model\MLModel.zip";
         public static string DATA_PATH;
@@ -16,7 +16,7 @@ namespace annaMLTools
             Console.WriteLine("-------------------------------------");
             string[] helpKey = new string[1];
 
-            helpKey[0] = "Train Model - Trains a New Model With New Data - Typically Used for Expanding ANNA Functionality";
+            helpKey[0] = "Train Model - Trains a New Model With New Data (Typically Used for Expanding ANNA Functionality)";
 
             for (int i = 0; i < helpKey.Length; i++)
             {
@@ -34,7 +34,8 @@ namespace annaMLTools
             {
                 Console.WriteLine("Please Enter the Path to your Dataset");
                 MODEL_PATH = Console.ReadLine();
-                RetrainModel();
+                RetrainModel(MODEL_PATH, DATA_PATH);
+                Console.WriteLine("Retraining Finished");
             }
             else if (userInput == "help" || userInput == "commands")
             {
@@ -65,7 +66,7 @@ namespace annaMLTools
             return trainingPipeline;
         }
 
-        private static void RetrainModel()
+        private static void RetrainModel(string modelPath, string dataPath)
         {
             MLContext mlContext = new MLContext();
 
@@ -82,10 +83,6 @@ namespace annaMLTools
             ITransformer trainer = pipeline.Fit(dataView);
 
             mlContext.Model.Save(trainer, dataView.Schema, MODEL_PATH);
-
-            Console.WriteLine("Please Enter Any Line to Exit");
-
-            Console.ReadLine();
         }
     }
 }
