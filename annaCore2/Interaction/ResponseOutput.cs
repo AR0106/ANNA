@@ -4,6 +4,7 @@ using Raylib_cs;
 using Reforce_annaBotML.Model;
 using System;
 using System.IO;
+using ANNA;
 
 using static Raylib_cs.Raylib;
 
@@ -85,6 +86,12 @@ namespace ANNA.Interaction
                 return 1;
             }
 
+        }
+
+        // Send Command to ANNA to Execute Program
+        public void SendCommand(string command)
+        {
+            Program.RunANNA(command);
         }
     }
 }

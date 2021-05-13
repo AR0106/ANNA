@@ -13,22 +13,20 @@ namespace ANNA
 
         private static string[] builtinCommands = { "hello", "world", "install"};
 
-        private static void Main(string[] args)
+        protected internal static void RunANNA(string input)
         {
             // DEV DEBUG ONLY
-            #if DEBUG
+#if DEBUG
             if (Output.directInput)
             {
                 Console.WriteLine("Direct Input Mode");
             }
-            #endif
-
-            string refInput = Output.ProcessInput(Console.ReadLine());
+#endif
 
             // Built-In Commands
-            if (builtinCommands.Any(refInput.Contains))
+            if (builtinCommands.Any(input.Contains))
             {
-                switch (refInput)
+                switch (input)
                 {
                     case "hello":
                         Output.Speak("Hi! I'm Anna!");
@@ -66,7 +64,7 @@ namespace ANNA
                         var extInstance = (IAnnaExtension)Activator.CreateInstance(extensionType);
 
                         // Checks if it is the Correct Command
-                        if (extInstance.SingleWordActions().Any(refInput.Contains))
+                        if (extInstance.SingleWordActions().Any(input.Contains))
                         {
                             // Runs Extension
                             extInstance.OnRun();
@@ -74,6 +72,11 @@ namespace ANNA
                     }
                 }
             }
+        }
+
+        private static void Main(string[] args)
+        {
+            RunANNA(Output.ProcessInput(Console.ReadLine()));
         }
     }
 }
