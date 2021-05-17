@@ -28,5 +28,10 @@ namespace TestExtension
         {
             return Guid.NewGuid();
         }
+
+        Extension IAnnaExtension.AnnaExtension()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

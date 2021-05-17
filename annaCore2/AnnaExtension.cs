@@ -3,21 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ANNA
 {
     public interface IAnnaExtension
-        {
-            void OnRun();
+    {
+        void OnRun();
 
-            Guid UUID();
+        Extension AnnaExtension();
 
-            string[] SingleWordActions();
+        string[] SingleWordActions();
 
-            string[] ExampleInitSentences();
-        }
+        string[] ExampleInitSentences();
+    }
 
     public struct Extension
     {
@@ -25,13 +26,15 @@ namespace ANNA
         public string Author;
         public DateTime Published;
         public Guid UUID;
+        public Uri Link;
+        public string ExtName;
         public string[] SingleWordActions;
         public string[] ExampleInitSentences;
     }
 
     public class Extensions
     {
-        public static int InstallExtension()
+        public static int InstallExtension(Extension extension)
         {
             //try
             //{
@@ -40,6 +43,14 @@ namespace ANNA
                 FileStream extensionsFile = File.Create("extensions.json");
                 extensionsFile.Close();
             }
+
+            using (WebClient client = new WebClient())
+            {
+                byte[] data = client.DownloadData(extension.Link);
+                File.WriteAllBytes(extension.UUID.ToString() + ".zip", data);
+            }
+
+            System.IO.Compression.ZipFile.ExtractToDirectory(extension.UUID.ToString() + ".zip", Environment.CurrentDirectory + "/extensions/" + extension.UUID.ToString());
 
             var interfaceType = typeof(IAnnaExtension);
             var all = AppDomain.CurrentDomain.GetAssemblies()
@@ -50,28 +61,21 @@ namespace ANNA
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.TypeNameHandling = TypeNameHandling.None;
 
-            var extensionsList = all.ToList();
-
-            DateTime pubDate = DateTime.Now;
-
-            foreach (var item in extensionsList)
+            Extension ext = new Extension
             {
-                var inst = (IAnnaExtension)Activator.CreateInstance("annaCore2", item.ToString()).Unwrap();
-
-                Extension ext = new Extension
-                {
-                    Name = "Test Extension",
-                    Author = "Reforce Labs",
-                    Published = pubDate,
-                    UUID = inst.UUID(),
-                    SingleWordActions = inst.SingleWordActions(),
-                    ExampleInitSentences = inst.ExampleInitSentences()
-                };
+                Name = extension.Name,
+                Author = extension.Author,
+                Published = extension.Published,
+                UUID = extension.UUID,
+                Link = extension.Link,
+                ExtName = extension.ExtName,
+                SingleWordActions = extension.SingleWordActions,
+                ExampleInitSentences = extension.ExampleInitSentences
+            };
 
                 var json = JsonConvert.SerializeObject(ext, Formatting.Indented);
 
                 File.AppendAllText("extensions.json", json);
-            }
 
 
 
@@ -109,9 +113,19 @@ namespace ANNA
             return words;
         }
 
-        public Guid UUID()
+        public Extension AnnaExtension()
         {
-            return Guid.NewGuid();
+            return new Extension
+            {
+                Name = "Anna Test Extension",
+                Author = "Reforce Labs",
+                Published = DateTime.Now,
+                UUID = Guid.NewGuid(),
+                Link = null,
+                ExtName = "anna-test-extension",
+                SingleWordActions = SingleWordActions(),
+                ExampleInitSentences = ExampleInitSentences()
+            };
         }
     }
 }

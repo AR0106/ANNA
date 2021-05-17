@@ -4,7 +4,6 @@ using Raylib_cs;
 using Reforce_annaBotML.Model;
 using System;
 using System.IO;
-using ANNA;
 
 using static Raylib_cs.Raylib;
 
@@ -12,32 +11,10 @@ namespace ANNA.Interaction
 {
     public class Output
     {
-        public static bool directInput = true;
-
-        // Machine Learning Action Output
-        public static string ProcessInput(string Input)
-        {
-            if (directInput)
-            {
-                return Input;
-            }
-
-            // Default ML Behavior
-            ModelInput input = new ModelInput
-            {
-                PHRASE = Input
-            };
-
-            if (Program.developerMode)
-            {
-                return $"{ConsumeModel.Predict(input).Prediction}:{ConsumeModel.Predict(input).Score[0]}";
-            }
-
-            return ConsumeModel.Predict(input).Prediction;
-        }
-
+        public bool directInput = true;
+        
         // Audio Output
-        public static int Speak(string sentence)
+        internal static int Speak(string sentence)
         {
             try
             {
@@ -86,6 +63,34 @@ namespace ANNA.Interaction
                 return 1;
             }
 
+        }
+
+        // Machine Learning Action Output
+        public static string ProcessInput(string Input)
+        {
+            if (directInput)
+            {
+                return Input;
+            }
+
+            // Default ML Behavior
+            ModelInput input = new ModelInput
+            {
+                PHRASE = Input
+            };
+
+            if (Program.developerMode)
+            {
+                return $"{ConsumeModel.Predict(input).Prediction}:{ConsumeModel.Predict(input).Score[0]}";
+            }
+
+            return ConsumeModel.Predict(input).Prediction;
+        }
+
+        // Audio Output Wrapper
+        public int Say(string sentence)
+        {
+            return Speak(sentence);
         }
 
         // Send Command to ANNA to Execute Program

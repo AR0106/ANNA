@@ -35,10 +35,6 @@ namespace ANNA
                     case "world":
                         Output.Speak("I'm on Earth! What world are you on?");
                         return;
-
-                    case "install":
-                        Extensions.InstallExtension();
-                        return;
                 }
             }
 
