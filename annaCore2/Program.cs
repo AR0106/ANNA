@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Reflection;
+using System.Collections.Generic;
 
 namespace ANNA
 {
@@ -11,7 +12,12 @@ namespace ANNA
     {
         internal static bool developerMode = true;
 
-        private static string[] builtinCommands = { "hello", "world", "install"};
+        internal static Guid guid()
+        {
+            return Guid.NewGuid();
+        }
+
+        private static string[] builtinCommands = { "hello", "world", "user"};
 
         protected internal static void RunANNA(string input)
         {

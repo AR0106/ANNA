@@ -4,6 +4,7 @@ using Raylib_cs;
 using Reforce_annaBotML.Model;
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 using static Raylib_cs.Raylib;
 
@@ -11,7 +12,7 @@ namespace ANNA.Interaction
 {
     public class Output
     {
-        public bool directInput = true;
+        public static bool directInput = true;
         
         // Audio Output
         internal static int Speak(string sentence)
@@ -87,14 +88,17 @@ namespace ANNA.Interaction
             return ConsumeModel.Predict(input).Prediction;
         }
 
+        // Program Response Output
+        public static List<Response> Out = new List<Response>();
+
         // Audio Output Wrapper
-        public int Say(string sentence)
+        public static int Say(string sentence)
         {
             return Speak(sentence);
         }
 
         // Send Command to ANNA to Execute Program
-        public void SendCommand(string command)
+        public static void SendCommand(string command)
         {
             Program.RunANNA(command);
         }

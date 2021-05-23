@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,7 +33,7 @@ namespace ANNA
         public string[] ExampleInitSentences;
     }
 
-    public class Extensions
+    internal class Extensions
     {
         public static int InstallExtension(Extension extension)
         {
