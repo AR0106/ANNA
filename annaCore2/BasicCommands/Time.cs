@@ -24,7 +24,7 @@ namespace ANNA.BasicCommands
             DateTime time = new DateTime();
 
             Response timeResponse = new Response(time.DayOfWeek.ToString());
-            Output.Out.Add(timeResponse);
+            Output.Responses.Add(timeResponse);
         }
     }
 }

@@ -21,16 +21,47 @@ namespace ANNA
         string[] ExampleInitSentences();
     }
 
-    public struct Extension
+    public class Extension
     {
-        public string Name;
-        public string Author;
-        public DateTime Published;
-        public Guid UUID;
-        public Uri Link;
-        public string ExtName;
-        public string[] SingleWordActions;
-        public string[] ExampleInitSentences;
+        public string Name
+        {
+            get; set;
+        }
+
+        public string Author
+        {
+            get; set;
+        }
+
+        public DateTime Published
+        {
+            get; set;
+        }
+
+        public string ANEID // AN(ANNA) E(Extension) ID
+        {
+            get => (Author.Length * 1024).ToString() + (ExtName.Length * 2048).ToString() + $"_{Author}.{Name}_" + Published.Ticks / 12;
+        }
+
+        public Uri Link
+        {
+            get; set;
+        }
+
+        public string ExtName
+        {
+            get => Name.Trim().ToLower();
+        }
+
+        public string[] SingleWordActions
+        {
+            get; set;
+        }
+
+        public string[] ExampleInitSentences
+        {
+            get; set;
+        }
     }
 
     internal class Extensions
@@ -48,10 +79,10 @@ namespace ANNA
             using (WebClient client = new WebClient())
             {
                 byte[] data = client.DownloadData(extension.Link);
-                File.WriteAllBytes(extension.UUID.ToString() + ".zip", data);
+                File.WriteAllBytes(extension.ANEID.ToString() + ".zip", data);
             }
 
-            System.IO.Compression.ZipFile.ExtractToDirectory(extension.UUID.ToString() + ".zip", Environment.CurrentDirectory + "/extensions/" + extension.UUID.ToString());
+            System.IO.Compression.ZipFile.ExtractToDirectory(extension.ANEID.ToString() + ".zip", Environment.CurrentDirectory + "/extensions/" + extension.ANEID.ToString());
 
             var interfaceType = typeof(IAnnaExtension);
             var all = AppDomain.CurrentDomain.GetAssemblies()
@@ -67,9 +98,7 @@ namespace ANNA
                 Name = extension.Name,
                 Author = extension.Author,
                 Published = extension.Published,
-                UUID = extension.UUID,
                 Link = extension.Link,
-                ExtName = extension.ExtName,
                 SingleWordActions = extension.SingleWordActions,
                 ExampleInitSentences = extension.ExampleInitSentences
             };
@@ -121,9 +150,7 @@ namespace ANNA
                 Name = "Anna Test Extension",
                 Author = "Reforce Labs",
                 Published = DateTime.Now,
-                UUID = Guid.NewGuid(),
                 Link = null,
-                ExtName = "anna-test-extension",
                 SingleWordActions = SingleWordActions(),
                 ExampleInitSentences = ExampleInitSentences()
             };

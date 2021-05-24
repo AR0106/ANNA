@@ -9,7 +9,10 @@ namespace ANNATests
         static void Main(string[] args)
         {
             ANNA.BasicCommands.Time.GetTime();
-            Console.WriteLine(Output.Out[Output.Out.Count - 1].response);
+            Console.WriteLine(Output.mostRecentResponse.ExtensionID);
+            Console.WriteLine(Output.mostRecentResponse.responseID);
+            Console.WriteLine(Output.mostRecentResponse.response);
+            Console.WriteLine(Output.mostRecentResponseIndex);
         }
     }
 }

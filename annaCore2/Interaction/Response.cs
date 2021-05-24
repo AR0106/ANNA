@@ -31,7 +31,7 @@ namespace ANNA.Interaction
             response = aiResponse;
             ExtensionID = extension.UUID;
             Time = DateTime.Now;
-            responseID = ExtensionID.ToString().Substring(0, 3) + DateTime.UnixEpoch + ExtensionID.ToString().Substring(4, 6) + '_' + extension.ExtName;
+            responseID = ExtensionID.ToString().Substring(0, 3) + DateTime.UnixEpoch.Ticks.ToString().Substring(0, 7) + ExtensionID.ToString().Substring(4, 6) + '_' + extension.ExtName;
         }
         
         // Used for ANNA Internal Response Calls ONLY
@@ -40,7 +40,7 @@ namespace ANNA.Interaction
             response = aiResponse;
             ExtensionID = Program.guid();
             Time = DateTime.Now;
-            responseID = "0000" + DateTime.UnixEpoch + "000" + '_' + "AnnaBase";
+            responseID = "0000" + DateTime.UnixEpoch.Ticks.ToString().Substring(0, 7) + "000" + '_' + "AnnaBase";
         }
     }
 }

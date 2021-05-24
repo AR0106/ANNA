@@ -13,6 +13,19 @@ namespace ANNA.Interaction
     public class Output
     {
         public static bool directInput = true;
+
+        // Program Response Output
+        public static List<Response> Responses = new List<Response>();
+
+        public static int mostRecentResponseIndex
+        {
+            get => Responses.Count - 1;
+        }
+        
+        public static Response mostRecentResponse
+        {
+            get => Responses[mostRecentResponseIndex];
+        }
         
         // Audio Output
         internal static int Speak(string sentence)
@@ -87,9 +100,6 @@ namespace ANNA.Interaction
 
             return ConsumeModel.Predict(input).Prediction;
         }
-
-        // Program Response Output
-        public static List<Response> Out = new List<Response>();
 
         // Audio Output Wrapper
         public static int Say(string sentence)
