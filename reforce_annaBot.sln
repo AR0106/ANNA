@@ -19,6 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "inputParser", "inputParser\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0FAFDCB2-6D0D-4735-BDA1-39BD7ECE96CA}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		AnnaDisplay\appsettings.Development.json = AnnaDisplay\appsettings.Development.json
 		AnnaDisplay\appsettings.json = AnnaDisplay\appsettings.json
@@ -40,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "annaCore2", "annaCore2\anna
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestExtension", "TestExtension\TestExtension.csproj", "{6C7C78E4-AF9C-409F-8D34-465539CEE5F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANNATests", "ANNATests\ANNATests.csproj", "{6A09828B-7BBA-40A6-BADE-B3CA4C238177}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ANNATests", "ANNATests\ANNATests.csproj", "{6A09828B-7BBA-40A6-BADE-B3CA4C238177}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

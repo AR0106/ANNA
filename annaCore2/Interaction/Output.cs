@@ -108,9 +108,10 @@ namespace ANNA.Interaction
         }
 
         // Send Command to ANNA to Execute Program
-        public static void SendCommand(string command)
+        public static void SendCommand(string command, string[] args, out dynamic output)
         {
-            Program.RunANNA(command);
+            output = null;
+            Program.RunANNA(command, args, out output);
         }
     }
 }

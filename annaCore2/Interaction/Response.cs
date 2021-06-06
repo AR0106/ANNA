@@ -8,7 +8,7 @@ namespace ANNA.Interaction
 {
     public class Response
     {
-        public Guid ExtensionID
+        public string ExtensionID
         {
             get;
         }
@@ -29,7 +29,7 @@ namespace ANNA.Interaction
         public Response(Extension extension, string aiResponse)
         {
             response = aiResponse;
-            ExtensionID = extension.UUID;
+            ExtensionID = extension.ANEID;
             Time = DateTime.Now;
             responseID = ExtensionID.ToString().Substring(0, 3) + DateTime.UnixEpoch.Ticks.ToString().Substring(0, 7) + ExtensionID.ToString().Substring(4, 6) + '_' + extension.ExtName;
         }
@@ -38,7 +38,7 @@ namespace ANNA.Interaction
         internal Response(string aiResponse)
         {
             response = aiResponse;
-            ExtensionID = Program.guid();
+            ExtensionID = Program.baseANEID();
             Time = DateTime.Now;
             responseID = "0000" + DateTime.UnixEpoch.Ticks.ToString().Substring(0, 7) + "000" + '_' + "AnnaBase";
         }

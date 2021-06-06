@@ -156,6 +156,9 @@
     <None Remove="RestSharp.dll" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\reforce_annaBotML.Model\reforce_annaBotML.Model.csproj" />
   </ItemGroup>
 </Project>

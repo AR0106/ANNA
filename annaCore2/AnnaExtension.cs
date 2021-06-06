@@ -12,7 +12,7 @@ namespace ANNA
 {
     public interface IAnnaExtension
     {
-        void OnRun();
+        void OnRun(string[] args, out dynamic extOutput);
 
         Extension AnnaExtension();
 
@@ -40,7 +40,7 @@ namespace ANNA
 
         public string ANEID // AN(ANNA) E(Extension) ID
         {
-            get => (Author.Length * 1024).ToString() + (ExtName.Length * 2048).ToString() + $"_{Author}.{Name}_" + Published.Ticks / 12;
+            get => (Author.Length * 1024).ToString() + (ExtName.Length * 2048).ToString() + String.Concat(($"_{Author}.{Name}_".ToLower()).Where(c => !Char.IsWhiteSpace(c))) + Published.Ticks / 12;
         }
 
         public Uri Link
@@ -50,7 +50,7 @@ namespace ANNA
 
         public string ExtName
         {
-            get => Name.Trim().ToLower();
+            get => String.Concat(Name.Trim().ToLower().Where(c => !Char.IsWhiteSpace(c)));
         }
 
         public string[] SingleWordActions
@@ -129,9 +129,10 @@ namespace ANNA
             return sentences;
         }
 
-        public void OnRun()
+        public void OnRun(string[] args, out dynamic extOutput)
         {
             Console.WriteLine("This is my Extension");
+            extOutput = null;
         }
 
         public string[] SingleWordActions()
