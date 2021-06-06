@@ -12,7 +12,7 @@ namespace ANNA
 {
     public interface IAnnaExtension
     {
-        void OnRun(string[] args, out dynamic extOutput);
+        dynamic OnRun(string[] args);
 
         Extension AnnaExtension();
 
@@ -129,10 +129,10 @@ namespace ANNA
             return sentences;
         }
 
-        public void OnRun(string[] args, out dynamic extOutput)
+        public dynamic OnRun(string[] args)
         {
             Console.WriteLine("This is my Extension");
-            extOutput = null;
+            return null;
         }
 
         public string[] SingleWordActions()

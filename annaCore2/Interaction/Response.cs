@@ -23,10 +23,10 @@ namespace ANNA.Interaction
             get;
         }
         
-        public string response;
+        public dynamic response;
 
         // Public API Response Calls
-        public Response(Extension extension, string aiResponse)
+        public Response(Extension extension, dynamic aiResponse)
         {
             response = aiResponse;
             ExtensionID = extension.ANEID;
@@ -35,7 +35,7 @@ namespace ANNA.Interaction
         }
         
         // Used for ANNA Internal Response Calls ONLY
-        internal Response(string aiResponse)
+        internal Response(dynamic aiResponse)
         {
             response = aiResponse;
             ExtensionID = Program.baseANEID();

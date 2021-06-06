@@ -12,17 +12,19 @@ namespace ANNA.BasicCommands
     };
     public class WebSearch
     {
-        public static SearchResponse RunSearch(string searchTopic)
+        public static void RunSearch(string searchTopic)
         {
             using var client = new WebClient();
             JObject content = JObject.Parse(client.DownloadString("https://api.duckduckgo.com/?q=" + searchTopic.Replace(' ', '+') + "&format=json&pretty=1&t=reforceanna"));
 
-            return new SearchResponse
+            Interaction.Response WebResponse = new Interaction.Response(new SearchResponse
             {
                 instantAnswer = content["Abstract"].ToString(),
                 sourceName = content["AbstractSource"].ToString(),
                 sourceLink = new Uri(content["AbstractURL"].ToString())
-            };
+            });
+
+            Interaction.Output.Responses.Add(WebResponse);
         } 
     }
 }

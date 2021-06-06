@@ -40,7 +40,7 @@ namespace ANNA
 
         private static string[] builtinCommands = { "hello", "world", "user", "ANEID", "search"};
 
-        protected internal static void RunANNA(string input, string[] args, out dynamic output)
+        protected internal static void RunANNA(string input, string[] args)
         {
             // DEV DEBUG ONLY
 #if DEBUG
@@ -49,7 +49,6 @@ namespace ANNA
                 Console.WriteLine("Direct Input Mode");
             }
 #endif
-            output = null;
 
             // Built-In Commands
             if (builtinCommands.Any(input.Contains))
@@ -58,20 +57,18 @@ namespace ANNA
                 {
                     case "hello":
                         Output.Speak("Hi! I'm Anna!");
-                        output = null;
                         return;
 
                     case "world":
                         Output.Speak("I'm on Earth! What world are you on?");
-                        output = null;
                         return;
 
                     case "ANEID":
-                        output = baseANEID();
+                        baseANEID();
                         return;
 
                     case "search":
-                        output = BasicCommands.WebSearch.RunSearch(args[0]);
+                        BasicCommands.WebSearch.RunSearch(args[0]);
                         return;
                 }
             }
@@ -101,8 +98,8 @@ namespace ANNA
                         if (extInstance.SingleWordActions().Any(input.Contains))
                         {
                             // Runs Extension
-                            output = null;
-                            extInstance.OnRun(args, output);
+                            Response response = new Response(extInstance.OnRun(args));
+                            Output.Responses.Add(response);
                         }
                     }
                 }

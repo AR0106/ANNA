@@ -23,9 +23,8 @@ namespace ANNATests
             Console.WriteLine(extension.ANEID);
             Output.SendCommand("ANEID");*/
 
-            dynamic output;
-            Output.SendCommand("search", new string[] { "microsoft" }, out output);
-            Nullable<ANNA.BasicCommands.SearchResponse> response = output as Nullable<ANNA.BasicCommands.SearchResponse>;
+            Output.SendCommand("search", new string[] { "microsoft" });
+            ANNA.BasicCommands.SearchResponse? response = Output.mostRecentResponse.response as ANNA.BasicCommands.SearchResponse?;
             Console.WriteLine(response.Value.instantAnswer);
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------");
             Console.WriteLine(response.Value.sourceLink);
