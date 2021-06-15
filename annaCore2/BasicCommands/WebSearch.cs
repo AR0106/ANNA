@@ -25,6 +25,6 @@ namespace ANNA.BasicCommands
             });
 
             Interaction.Output.Responses.Add(WebResponse);
-        } 
+        }
     }
 }

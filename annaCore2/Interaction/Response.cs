@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ANNA.Interaction
 {
@@ -15,14 +11,14 @@ namespace ANNA.Interaction
 
         private DateTime Time
         {
-            get;
+            get => DateTime.Now;
         }
-        
+
         public string responseID
         {
             get;
         }
-        
+
         public dynamic response;
 
         // Public API Response Calls
@@ -30,16 +26,14 @@ namespace ANNA.Interaction
         {
             response = aiResponse;
             ExtensionID = extension.ANEID;
-            Time = DateTime.Now;
             responseID = ExtensionID.ToString().Substring(0, 3) + DateTime.UnixEpoch.Ticks.ToString().Substring(0, 7) + ExtensionID.ToString().Substring(4, 6) + '_' + extension.ExtName;
         }
-        
+
         // Used for ANNA Internal Response Calls ONLY
         internal Response(dynamic aiResponse)
         {
             response = aiResponse;
             ExtensionID = Program.baseANEID();
-            Time = DateTime.Now;
             responseID = "0000" + DateTime.UnixEpoch.Ticks.ToString().Substring(0, 7) + "000" + '_' + "AnnaBase";
         }
     }

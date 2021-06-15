@@ -1,7 +1,7 @@
 ﻿using ANNA.Interaction;
 using System;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace ANNA
@@ -38,7 +38,7 @@ namespace ANNA
             return $"00_reforcelabs_anna_{GetLinkerTimestampUtc(Assembly.GetExecutingAssembly()).Ticks / 12}";
         }
 
-        private static string[] builtinCommands = { "hello", "world", "user", "ANEID", "search"};
+        private static string[] builtinCommands = { "hello", "world", "user", "ANEID", "search" };
 
         protected internal static void RunANNA(string input, string[] args)
         {
@@ -46,7 +46,7 @@ namespace ANNA
 #if DEBUG
             if (Output.directInput)
             {
-                Console.WriteLine("Direct Input Mode");
+                Output.Responses.Add(new Response("Direct Input Mode"));
             }
 #endif
 
@@ -56,11 +56,11 @@ namespace ANNA
                 switch (input)
                 {
                     case "hello":
-                        Output.Speak("Hi! I'm Anna!");
+                        Output.Responses.Add(new Response("Hi! I'm Anna!"));
                         return;
 
                     case "world":
-                        Output.Speak("I'm on Earth! What world are you on?");
+                        Output.Responses.Add(new Response("I'm on Earth! What world are you on?"));
                         return;
 
                     case "ANEID":

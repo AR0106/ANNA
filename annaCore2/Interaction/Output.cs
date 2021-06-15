@@ -3,9 +3,8 @@ using IBM.Watson.TextToSpeech.v1;
 using Raylib_cs;
 using Reforce_annaBotML.Model;
 using System;
-using System.IO;
 using System.Collections.Generic;
-
+using System.IO;
 using static Raylib_cs.Raylib;
 
 namespace ANNA.Interaction
@@ -21,12 +20,12 @@ namespace ANNA.Interaction
         {
             get => Responses.Count - 1;
         }
-        
+
         public static Response mostRecentResponse
         {
             get => Responses[mostRecentResponseIndex];
         }
-        
+
         // Audio Output
         internal static int Speak(string sentence)
         {
@@ -110,7 +109,14 @@ namespace ANNA.Interaction
         // Send Command to ANNA to Execute Program
         public static void SendCommand(string command, string[] args)
         {
-            Program.RunANNA(command, args);
+            try
+            {
+                Program.RunANNA(command, args);
+            }
+            catch (Exception e)
+            {
+                Responses.Add(new Response(e));
+            }
         }
     }
 }

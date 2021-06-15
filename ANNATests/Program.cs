@@ -1,6 +1,5 @@
-﻿using System;
-using ANNA;
-using ANNA.Interaction;
+﻿using ANNA.Interaction;
+using System;
 
 namespace ANNATests
 {
