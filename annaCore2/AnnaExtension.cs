@@ -113,44 +113,4 @@ namespace ANNA
             }*/
         }
     }
-
-    public class AnnaTestExtension : IAnnaExtension
-    {
-        public string[] ExampleInitSentences()
-        {
-            string[] sentences = new string[1];
-
-            sentences[0] = "open my extension";
-
-            return sentences;
-        }
-
-        public dynamic OnRun(string[] args)
-        {
-            Console.WriteLine("This is my Extension");
-            return null;
-        }
-
-        public string[] SingleWordActions()
-        {
-            string[] words = new string[1];
-
-            words[0] = "extension";
-
-            return words;
-        }
-
-        public Extension AnnaExtension()
-        {
-            return new Extension
-            {
-                Name = "Anna Test Extension",
-                Author = "Reforce Labs",
-                Published = DateTime.Now,
-                Link = null,
-                SingleWordActions = SingleWordActions(),
-                ExampleInitSentences = ExampleInitSentences()
-            };
-        }
-    }
 }

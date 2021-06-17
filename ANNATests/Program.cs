@@ -22,13 +22,17 @@ namespace ANNATests
             Console.WriteLine(extension.ANEID);
             Output.SendCommand("ANEID");*/
 
-            Output.SendCommand("search", new string[] { "microsoft" });
+            /*Output.SendCommand("search", new string[] { "microsoft" });
             ANNA.BasicCommands.SearchResponse? response = Output.mostRecentResponse.response as ANNA.BasicCommands.SearchResponse?;
             Console.WriteLine(response.Value.instantAnswer);
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------");
             Console.WriteLine(response.Value.sourceLink);
             Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------------------");
-            Console.WriteLine(response.Value.sourceName);
+            Console.WriteLine(response.Value.sourceName);*/
+
+            /*Output.SendCommand("hello", null);
+            string response = Output.mostRecentResponse.response as string;
+            Console.WriteLine(response);*/
         }
     }
 }

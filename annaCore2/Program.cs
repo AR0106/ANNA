@@ -1,4 +1,6 @@
 ﻿using ANNA.Interaction;
+using ANNA.UserInfo;
+using ANNA.BasicCommands;
 using System;
 using System.IO;
 using System.Linq;
@@ -38,7 +40,7 @@ namespace ANNA
             return $"00_reforcelabs_anna_{GetLinkerTimestampUtc(Assembly.GetExecutingAssembly()).Ticks / 12}";
         }
 
-        private static string[] builtinCommands = { "hello", "world", "user", "ANEID", "search" };
+        private static string[] builtinCommands = { "hello", "from", "user", "ANEID", "search", "time" };
 
         protected internal static void RunANNA(string input, string[] args)
         {
@@ -56,19 +58,25 @@ namespace ANNA
                 switch (input)
                 {
                     case "hello":
-                        Output.Responses.Add(new Response("Hi! I'm Anna!"));
+                        Output.Responses.Add(new Response(Greeting.GetGreeting(new User("Testmark").FirstName)));
                         return;
 
                     case "world":
-                        Output.Responses.Add(new Response("I'm on Earth! What world are you on?"));
+                        Output.Responses.Add(new Response("I was developed by Reforce Labs in Wisconsin, but I have servers throughout the world."));
                         return;
 
                     case "ANEID":
+#if DEBUG
                         baseANEID();
+#endif
                         return;
 
                     case "search":
                         BasicCommands.WebSearch.RunSearch(args[0]);
+                        return;
+
+                    case "time":
+                        Output.Responses.Add(new Response($"It's {DateTime.Now.Hour}:{DateTime.Now.Minute}"));
                         return;
                 }
             }
