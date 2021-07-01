@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using AnnaMLTools.PreTraining;
+using AnnaMLTools.General;
+using AnnaMLTools.Keyword;
 using Word2vec.Tools;
 
 namespace MlToolsTests

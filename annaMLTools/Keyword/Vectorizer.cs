@@ -1,8 +1,9 @@
-﻿using System;
+﻿using AnnaMLTools.General;
+using System;
 using System.Collections.Generic;
 using Word2vec.Tools;
 
-namespace AnnaMLTools.PreTraining
+namespace AnnaMLTools.Keyword
 {
     public class Vectorizer
     {

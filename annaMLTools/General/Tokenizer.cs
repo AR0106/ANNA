@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace AnnaMLTools.PreTraining
+namespace AnnaMLTools.General
 {
     public class Tokenizer
     {

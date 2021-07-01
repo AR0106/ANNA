@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AnnaMLTools.PreTraining
+namespace AnnaMLTools.General
 {
     public class tfidf
     {
