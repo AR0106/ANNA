@@ -26,4 +26,10 @@
     <ProjectReference Include="..\reforce_annaBotML.Model\reforce_annaBotML.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Word2vec.Tools">
+      <HintPath>..\Dependencies\Word2Vec\Word2vec.Tools.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
