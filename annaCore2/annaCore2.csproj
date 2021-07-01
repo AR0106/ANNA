@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\annaMLTools\AnnaMLTools.csproj" />
     <ProjectReference Include="..\reforce_annaBotML.Model\reforce_annaBotML.Model.csproj" />
   </ItemGroup>
 

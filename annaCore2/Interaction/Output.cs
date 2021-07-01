@@ -1,10 +1,13 @@
-﻿using IBM.Cloud.SDK.Core.Authentication.Iam;
+﻿using AnnaMLTools.General;
+using AnnaMLTools.Keyword;
+using IBM.Cloud.SDK.Core.Authentication.Iam;
 using IBM.Watson.TextToSpeech.v1;
 using Raylib_cs;
 using Reforce_annaBotML.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using static Raylib_cs.Raylib;
 
 namespace ANNA.Interaction
@@ -78,8 +81,19 @@ namespace ANNA.Interaction
 
         }
 
+        public static void InitML()
+        {
+            Vectorizer.InitVectorizer();
+        }
+
+        struct MLOutput
+        {
+            public string word;
+            public double frequency;
+        }
+
         // Machine Learning Action Output
-        public static string ProcessInput(string Input)
+        public static string ProcessInput(string Input, int broadness, Extension extension)
         {
             if (directInput)
             {
@@ -87,17 +101,49 @@ namespace ANNA.Interaction
             }
 
             // Default ML Behavior
-            ModelInput input = new ModelInput
+            List<MLOutput> LFrequencies = new List<MLOutput>();
+
+            List<Tokenizer.Sentence> extensionSentences = new List<Tokenizer.Sentence>();
+
+            foreach (var sentence in extension.ExampleInitSentences)
             {
-                PHRASE = Input
-            };
+                foreach (var item in Tokenizer.Encode(sentence))
+                {
+                    extensionSentences.Add(item);
+                }
+            }
+
+            var tokenized = Tokenizer.Encode(Input);
+            
+            foreach (var sentence in tokenized)
+            {
+                foreach (var word in sentence.words_noUseless)
+                {
+                    LFrequencies.Add(new MLOutput { frequency = tfidf.GetTFIDF(word, sentence, extensionSentences.ToArray()),
+                                                    word = word});
+
+                    var vectors = Vectorizer.Vectorize(sentence, broadness);
+
+                    foreach (var vector in vectors)
+                    {
+                        LFrequencies.Add(new MLOutput
+                        {
+                            frequency = tfidf.GetTFIDF(vector.Representation.WordOrNull, sentence, extensionSentences.ToArray()),
+                            word = vector.Representation.WordOrNull
+                        });
+                    }
+                }
+                
+            }
+
+            var sortedFrequencies = LFrequencies.OrderByDescending(f => f.frequency);
 
             if (Program.developerMode)
             {
-                return $"{ConsumeModel.Predict(input).Prediction}:{ConsumeModel.Predict(input).Score[0]}";
+                return $"{sortedFrequencies.ElementAt(0).word}:{sortedFrequencies.ElementAt(0).frequency}";
             }
 
-            return ConsumeModel.Predict(input).Prediction;
+            return sortedFrequencies.ElementAt(0).word;
         }
 
         // Audio Output Wrapper
