@@ -152,10 +152,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AnnaExtension.h" />
     <ClInclude Include="Output.h" />
     <ClInclude Include="Response.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnnaExtension.cpp" />
     <ClCompile Include="Output.cpp" />
     <ClCompile Include="Response.cpp" />
   </ItemGroup>

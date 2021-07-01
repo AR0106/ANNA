@@ -21,12 +21,18 @@
     <ClInclude Include="Response.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AnnaExtension.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Output.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Response.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AnnaExtension.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

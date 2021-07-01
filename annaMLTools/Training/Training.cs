@@ -2,54 +2,19 @@
 using Microsoft.ML.Trainers;
 using Reforce_annaBotML.Model;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace AnnaMLTools
+namespace AnnaMLTools.Training
 {
-    public class Program
+    public class Training
     {
         public static string MODEL_PATH = @"D:\Reforce ANNA\reforce_annaBotML.Model\MLModel.zip";
         public static string DATA_PATH;
 
-        private static string[] helpMenu()
-        {
-            Console.WriteLine("Commands");
-            Console.WriteLine("-------------------------------------");
-            string[] helpKey = new string[1];
-
-            helpKey[0] = "Train Model - Trains a New Model With New Data (Typically Used for Expanding ANNA Functionality)";
-
-            for (int i = 0; i < helpKey.Length; i++)
-            {
-                Console.WriteLine(helpKey[i]);
-            }
-
-            return helpKey;
-        }
-
-        private static void Main()
-        {
-            string userInput = Console.ReadLine().ToLower();
-
-            if (userInput == "train model")
-            {
-                Console.WriteLine("Please Enter the Path to your Dataset");
-                MODEL_PATH = Console.ReadLine();
-                RetrainModel(MODEL_PATH, DATA_PATH);
-                Console.WriteLine("Retraining Finished");
-            }
-            else if (userInput == "help" || userInput == "commands")
-            {
-                helpMenu();
-            }
-            else
-            {
-                Main();
-            }
-
-            Console.ReadLine();
-        }
-
-        public static IEstimator<ITransformer> BuildTrainingPipeline(MLContext mlContext)
+        private static IEstimator<ITransformer> BuildTrainingPipeline(MLContext mlContext)
         {
             // Data process configuration with pipeline data transformations
             var dataProcessPipeline = mlContext.Transforms.Conversion.MapValueToKey("INTENTION", "INTENTION")
@@ -66,7 +31,7 @@ namespace AnnaMLTools
             return trainingPipeline;
         }
 
-        private static void RetrainModel(string modelPath, string dataPath)
+        public static void RetrainModel(string modelPath, string dataPath)
         {
             MLContext mlContext = new MLContext();
 
