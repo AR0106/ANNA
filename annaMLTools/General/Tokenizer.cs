@@ -26,7 +26,7 @@ namespace AnnaMLTools.General
 
         private static string[] GenNGrams(int n, Sentence sentence)
         {
-            List<string> LNgrams = new List<string>();
+            List<string> LNgrams = new();
 
             int gramLayers = -1;
 
@@ -48,7 +48,7 @@ namespace AnnaMLTools.General
             return LNgrams.ToArray();
         }
 
-        public static string[] uselessWords = 
+        readonly static string[] uselessWords = 
         { 
             "the ",
             "an ",
@@ -68,11 +68,11 @@ namespace AnnaMLTools.General
         {
             string[] splitSentences = Regex.Split(text, @"(?<=[\.!\?])\s+");
 
-            List<Sentence> LSentences = new List<Sentence>();
+            List<Sentence> LSentences = new();
 
             foreach (string item in splitSentences)
             {
-                Sentence sentence = new Sentence();
+                Sentence sentence = new();
                 sentence.text = item;
                 sentence.words = item.ToLower().Split(' ');
 

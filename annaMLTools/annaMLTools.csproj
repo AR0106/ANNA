@@ -8,13 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\reforce_annaBotML.Model\reforce_annaBotML.Model.csproj" />
+    <PackageReference Include="MathNet.Numerics" Version="4.15.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Word2vec.Tools">
-      <HintPath>..\Dependencies\Word2Vec\Word2vec.Tools.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Dependencies\Open Source Solutions\Word2vec.Tools-master\Word2vec.Tools\Word2vec.Tools.csproj" />
   </ItemGroup>
 
 </Project>

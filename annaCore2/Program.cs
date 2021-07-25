@@ -40,7 +40,7 @@ namespace ANNA
             return $"00_reforcelabs_anna_{GetLinkerTimestampUtc(Assembly.GetExecutingAssembly()).Ticks / 12}";
         }
 
-        private static string[] builtinCommands = { "hello", "from", "user", "ANEID", "search", "time" };
+        private static string[] builtinCommands = { "hello", "from", "user", "ANEID", "search", "time", "meaning" };
 
         protected internal static void RunANNA(string input, string[] args)
         {
@@ -58,7 +58,7 @@ namespace ANNA
                 switch (input)
                 {
                     case "hello":
-                        Output.Responses.Add(new Response(Greeting.GetGreeting(new User("Testmark").FirstName)));
+                        Output.Responses.Add(new Response(Greeting.GetGreeting(new User(args[0]).FirstName)));
                         return;
 
                     case "world":
@@ -72,11 +72,15 @@ namespace ANNA
                         return;
 
                     case "search":
-                        BasicCommands.WebSearch.RunSearch(args[0]);
+                        WebSearch.RunSearch(args[0]);
                         return;
 
                     case "time":
                         Output.Responses.Add(new Response($"It's {DateTime.Now.Hour}:{DateTime.Now.Minute}"));
+                        return;
+
+                    case "meaning":
+                        Output.Responses.Add(new Response($"The definition of {args[0]} is {Dictionary.GetDefinition(args[0], args[1])}"));
                         return;
                 }
             }

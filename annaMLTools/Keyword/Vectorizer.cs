@@ -23,9 +23,9 @@ namespace AnnaMLTools.Keyword
 
         private static Vocabulary vocab;
 
-        public static void InitVectorizer()
+        public static void InitVectorizer(string modelPath)
         {
-            vocab = new Word2VecBinaryReader().Read("vectorsMed.bin");
+            vocab = new Word2VecBinaryReader().Read(modelPath);
             isVectorizerInit = true;
         }
 
@@ -35,7 +35,7 @@ namespace AnnaMLTools.Keyword
             {
                 throw new VectorizerNotInitialized();
             }
-            List<DistanceTo> LDistances = new List<DistanceTo>();
+            List<DistanceTo> LDistances = new();
             foreach (var word in sentence.words_noUseless)
             {
                 var closest = vocab.Distance(word, numOfClosestWords);

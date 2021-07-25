@@ -3,7 +3,6 @@ using AnnaMLTools.Keyword;
 using IBM.Cloud.SDK.Core.Authentication.Iam;
 using IBM.Watson.TextToSpeech.v1;
 using Raylib_cs;
-using Reforce_annaBotML.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,16 +16,16 @@ namespace ANNA.Interaction
         public static bool directInput = true;
 
         // Program Response Output
-        public static List<Response> Responses = new List<Response>();
+        public static List<Response> Responses = new();
 
-        public static int mostRecentResponseIndex
+        public static int MostRecentResponseIndex
         {
             get => Responses.Count - 1;
         }
 
-        public static Response mostRecentResponse
+        public static Response MostRecentResponse
         {
-            get => Responses[mostRecentResponseIndex];
+            get => Responses[MostRecentResponseIndex];
         }
 
         // Audio Output
@@ -35,11 +34,11 @@ namespace ANNA.Interaction
             try
             {
                 // Initiate IBM Watson TTS Service
-                IamAuthenticator ibmAuth = new IamAuthenticator(
+                IamAuthenticator ibmAuth = new(
                     apikey: "WpUJamCM8z2Q_-X5i283MIeXodlGY2vJahX7rasOW6ae"
                     );
 
-                TextToSpeechService speechService = new TextToSpeechService(ibmAuth);
+                TextToSpeechService speechService = new(ibmAuth);
                 speechService.SetServiceUrl("https://api.us-south.text-to-speech.watson.cloud.ibm.com/instances/bbfeff9a-0fa9-48db-9ee5-4a291306bc0a");
 
                 var speechResult = speechService.Synthesize(sentence, "audio/wav", "en-US_AllisonV3Voice");
@@ -54,6 +53,7 @@ namespace ANNA.Interaction
 
                 // Initiate Audio Service
                 InitAudioDevice();
+
                 Music audio = LoadMusicStream("anna.wav");
                 PlayMusicStream(audio);
 
@@ -83,7 +83,7 @@ namespace ANNA.Interaction
 
         public static void InitML()
         {
-            Vectorizer.InitVectorizer();
+            Vectorizer.InitVectorizer("vectorsMed.bin");
         }
 
         struct MLOutput
@@ -101,10 +101,11 @@ namespace ANNA.Interaction
             }
 
             // Default ML Behavior
-            List<MLOutput> LFrequencies = new List<MLOutput>();
+            List<MLOutput> LFrequencies = new();
 
-            List<Tokenizer.Sentence> extensionSentences = new List<Tokenizer.Sentence>();
+            List<Tokenizer.Sentence> extensionSentences = new();
 
+            // Encodes Each Initiation Sentence From the Extension and Puts it into a Tokenized Sentence List
             foreach (var sentence in extension.ExampleInitSentences)
             {
                 foreach (var item in Tokenizer.Encode(sentence))
@@ -113,17 +114,21 @@ namespace ANNA.Interaction
                 }
             }
 
+            // Tokenizes the User Input
             var tokenized = Tokenizer.Encode(Input);
             
             foreach (var sentence in tokenized)
             {
                 foreach (var word in sentence.words_noUseless)
                 {
+                    // Gets Frequency of Each Word in The Extension Initiation Sentences
                     LFrequencies.Add(new MLOutput { frequency = tfidf.GetTFIDF(word, sentence, extensionSentences.ToArray()),
                                                     word = word});
 
+                    // Takes Each Meaningful Word in The provided User Sentences, Finds Related Terms, and Vectorizes each of them
                     var vectors = Vectorizer.Vectorize(sentence, broadness);
 
+                    // Gets Frequency of Similar Words in the 
                     foreach (var vector in vectors)
                     {
                         LFrequencies.Add(new MLOutput
@@ -136,6 +141,7 @@ namespace ANNA.Interaction
                 
             }
 
+            // Sorts Words from Most Frequent to Least Frequent
             var sortedFrequencies = LFrequencies.OrderByDescending(f => f.frequency);
 
             if (Program.developerMode)
@@ -143,6 +149,7 @@ namespace ANNA.Interaction
                 return $"{sortedFrequencies.ElementAt(0).word}:{sortedFrequencies.ElementAt(0).frequency}";
             }
 
+            // Returns Most Frequent Word
             return sortedFrequencies.ElementAt(0).word;
         }
 
