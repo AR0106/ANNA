@@ -14,6 +14,7 @@ namespace ANNA.Interaction
     public class Output
     {
         public static bool directInput = true;
+        public static bool generatedOutput = false;
 
         // Program Response Output
         public static List<Response> Responses = new();
