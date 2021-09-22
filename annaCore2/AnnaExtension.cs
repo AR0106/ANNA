@@ -75,7 +75,7 @@ namespace ANNA
             using (WebClient client = new WebClient())
             {
                 byte[] data = client.DownloadData(extension.Link);
-                File.WriteAllBytes(extension.ANEID.ToString() + ".zip", data);
+                File.WriteAllBytes(extension.ANEID.ToString() + ".annaext", data);
             }
 
             System.IO.Compression.ZipFile.ExtractToDirectory(extension.ANEID.ToString() + ".zip", Environment.CurrentDirectory + "/extensions/" + extension.ANEID.ToString());
