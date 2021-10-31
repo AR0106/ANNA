@@ -12,16 +12,11 @@ namespace ANNA.BasicCommands
     {
         public static string[] GetDefinition(string word, string language)
         {
-            WebClient client = new WebClient();
-            string apiResult = client.DownloadString("https://api.dictionaryapi.dev/api/v2/entries/" + language + '/' + word);
-            if (apiResult.StartsWith('['))
-            {
-                apiResult = apiResult.Remove(0, 1);
-            }
-            if (apiResult.EndsWith(']'))
-            {
-                apiResult = apiResult.Remove(apiResult.Length - 1, 1);
-            }
+            string apiResult = new WebClient().DownloadString("https://api.dictionaryapi.dev/api/v2/entries/" + language + '/' + word);
+
+            // Cleanup
+            apiResult = apiResult.Remove(0, 1);
+            apiResult = apiResult.Remove(apiResult.Length - 1, 1);
 
             JObject apiDef = JObject.Parse(apiResult);
 

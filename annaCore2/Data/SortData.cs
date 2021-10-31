@@ -13,8 +13,7 @@ namespace ANNA.Data
     {
         public static List<T> Sort<T>(IList<T> unsortedList, string property, bool isAscending = true)
         {
-            var type = typeof(T);
-            var sortProperty = type.GetProperty(property);
+            var sortProperty = typeof(T).GetProperty(property);
             var spType = sortProperty.PropertyType;
 
             if (isAscending)
@@ -35,8 +34,7 @@ namespace ANNA.Data
                 UnsortedList.Add((T)item);
             }
 
-            var type = typeof(T);
-            var sortProperty = type.GetProperty(property);
+            var sortProperty = typeof(T).GetProperty(property);
 
             if (isAscending)
             {

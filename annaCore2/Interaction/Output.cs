@@ -29,6 +29,11 @@ namespace ANNA.Interaction
             get => Responses[MostRecentResponseIndex];
         }
 
+        public static void PushResponse(Response response)
+        {
+            Responses.Add(response);
+        }
+
         // Audio Output
         internal static int Speak(string sentence)
         {
@@ -169,7 +174,12 @@ namespace ANNA.Interaction
             }
             catch (Exception e)
             {
-                Responses.Add(new Response(e));
+                Responses.Add(new Response("There was an Error Processing Your Command"));
+
+                if (Program.developerMode)
+                {
+                    Responses.Add(new Response(e));
+                }
             }
         }
     }

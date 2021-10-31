@@ -5,12 +5,15 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Collections.Generic;
 
 namespace ANNA
 {
     internal class Program
     {
+#if DEBUG
         internal static bool developerMode = true;
+#endif
 
         public static DateTime GetLinkerTimestampUtc(Assembly assembly)
         {
@@ -47,9 +50,7 @@ namespace ANNA
             // DEV DEBUG ONLY
 #if DEBUG
             if (Output.directInput)
-            {
-                Output.Responses.Add(new Response("Direct Input Mode"));
-            }
+                Output.PushResponse(new Response("Direct Input Mode"));
 #endif
 
             // Built-In Commands
@@ -58,17 +59,18 @@ namespace ANNA
                 switch (input)
                 {
                     case "hello":
-                        Output.Responses.Add(new Response(Greeting.GetGreeting(new User(args[0]).FirstName)));
+                        Output.PushResponse(new Response(Greeting.GetGreeting(new User(args[0]).FirstName)));
                         return;
 
                     case "world":
-                        Output.Responses.Add(new Response("I was developed by Reforce Labs in Wisconsin, but I have servers throughout the world."));
+                        Output.PushResponse(new Response("I was developed by Reforce Labs in Wisconsin, but I have servers throughout the world."));
                         return;
 
                     case "ANEID":
-#if DEBUG
-                        baseANEID();
-#endif
+                        if (developerMode)
+                        {
+                            Output.PushResponse(new Response(baseANEID()));
+                        }
                         return;
 
                     case "search":
@@ -76,11 +78,11 @@ namespace ANNA
                         return;
 
                     case "time":
-                        Output.Responses.Add(new Response($"It's {DateTime.Now.Hour}:{DateTime.Now.Minute}"));
+                        Output.PushResponse(new Response($"It's {DateTime.Now.Hour}:{DateTime.Now.Minute}"));
                         return;
 
                     case "meaning":
-                        Output.Responses.Add(new Response($"The definition of {args[0]} is {Dictionary.GetDefinition(args[0], args[1])}"));
+                        Output.PushResponse(new Response($"The definition of {args[0]} is {Dictionary.GetDefinition(args[0], args[1])}"));
                         return;
                 }
             }
@@ -95,9 +97,9 @@ namespace ANNA
 
                 foreach (var extension in Directory.EnumerateFiles("extensions", "*.dll", SearchOption.AllDirectories))
                 {
-                    var assembly = Assembly.LoadFrom(extension);
+                    Assembly assembly = Assembly.LoadFrom(extension);
 
-                    var extensionTypes = AppDomain.CurrentDomain.GetAssemblies()
+                    IEnumerable<Type> extensionTypes = AppDomain.CurrentDomain.GetAssemblies()
                         .SelectMany(s => s.GetTypes())
                         .Where(p => typeof(IAnnaExtension).IsAssignableFrom(p) && !p.IsInterface && !p.IsAbstract);
 
@@ -111,7 +113,7 @@ namespace ANNA
                         {
                             // Runs Extension
                             Response response = new Response(extInstance.OnRun(args));
-                            Output.Responses.Add(response);
+                            Output.PushResponse(response);
                         }
                     }
                 }

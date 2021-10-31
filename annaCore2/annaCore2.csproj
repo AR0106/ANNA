@@ -7,6 +7,14 @@
     </RuntimeIdentifiers>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <RootNamespace>ANNA</RootNamespace>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Company>Reforce Labs</Company>
+    <Product>ANNA</Product>
+    <Authors>Reforce Labs ANNA Team</Authors>
+    <PackageId>annaCore</PackageId>
+    <Copyright>Reforce Labs © All Rights Reserved</Copyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <AssemblyName>annaCore</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -17,6 +25,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="vectorsMed.bin" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="IBM.Watson.TextToSpeech.v1" Version="5.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Raylib-cs" Version="3.5.0" />
@@ -25,6 +37,12 @@
   <ItemGroup>
     <ProjectReference Include="..\annaMLTools\AnnaMLTools.csproj" />
     <ProjectReference Include="..\Dependencies\Open Source Solutions\Word2vec.Tools-master\Word2vec.Tools\Word2vec.Tools.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="vectorsMed.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

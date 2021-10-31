@@ -352,3 +352,5 @@ MigrationBackup/
 ./reforce_annaBot
 
 ./inputParser
+
+*.bin

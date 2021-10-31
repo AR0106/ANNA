@@ -44,7 +44,7 @@ namespace AnnaMLTools.General
                 }
             }
 
-            // Set Sentence Trigrams to the Newly Populated LTrigrams
+            // Set Sentence NGrams to the Newly Populated LNgrams
             return LNgrams.ToArray();
         }
 

@@ -64,8 +64,6 @@ namespace ANNA
     {
         public static int InstallExtension(Extension extension)
         {
-            //try
-            //{
             if (!File.Exists("extensions.json"))
             {
                 FileStream extensionsFile = File.Create("extensions.json");
@@ -103,14 +101,7 @@ namespace ANNA
 
             File.AppendAllText("extensions.json", json);
 
-
-
             return 0;
-            /*}
-            catch (Exception e)
-            {
-                throw;
-            }*/
         }
     }
 }

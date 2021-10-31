@@ -51,7 +51,7 @@ namespace ANNA.Interaction
 
             // Add and Return Result to Response List
 
-            Output.Responses.Add(new Response(JsonConvert.DeserializeObject<gptJOutput>(item.ToString())));
+            Output.PushResponse(new Response(JsonConvert.DeserializeObject<gptJOutput>(item.ToString())));
 
             return Output.MostRecentResponse;
         }
@@ -73,7 +73,7 @@ namespace ANNA.Interaction
 
             JObject item = JObject.Parse(result.Result);
 
-            Output.Responses.Add(new Response(JsonConvert.DeserializeObject<gptJOutput>(item.ToString())));
+            Output.PushResponse(new Response(JsonConvert.DeserializeObject<gptJOutput>(item.ToString())));
 
             return Output.MostRecentResponse;
         }
