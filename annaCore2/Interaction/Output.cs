@@ -1,12 +1,16 @@
 ﻿using AnnaMLTools.General;
 using AnnaMLTools.Keyword;
 using IBM.Cloud.SDK.Core.Authentication.Iam;
+using IBM.Watson.SpeechToText.v1;
 using IBM.Watson.TextToSpeech.v1;
+using Newtonsoft.Json.Linq;
+using Pv;
 using Raylib_cs;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using static Raylib_cs.Raylib;
 
 namespace ANNA.Interaction
@@ -34,6 +38,100 @@ namespace ANNA.Interaction
             Responses.Add(response);
         }
 
+        // Audio Input
+        public static void Voice()
+        {
+            Record();
+
+            string command = Listen();
+
+#if DEBUG
+            Console.WriteLine(command);
+#endif
+
+            if (command.ToLower().Split(' ').Contains("anna"))
+            {
+                if (command.ToLower().Split(' ').Contains("time"))
+                {
+                    SendCommand("time", null);
+                }
+            }
+        }
+
+        internal static void WriteWavHeader(BinaryWriter writer, ushort channelCount, ushort bitDepth, int sampleRate, int totalSampleCount)
+        {
+            if (writer == null)
+                return;
+
+            writer.Seek(0, SeekOrigin.Begin);
+            writer.Write(Encoding.ASCII.GetBytes("RIFF"));
+            writer.Write((bitDepth / 8 * totalSampleCount) + 36);
+            writer.Write(Encoding.ASCII.GetBytes("WAVE"));
+            writer.Write(Encoding.ASCII.GetBytes("fmt "));
+            writer.Write(16);
+            writer.Write((ushort)1);
+            writer.Write(channelCount);
+            writer.Write(sampleRate);
+            writer.Write(sampleRate * channelCount * bitDepth / 8);
+            writer.Write((ushort)(channelCount * bitDepth / 8));
+            writer.Write(bitDepth);
+            writer.Write(Encoding.ASCII.GetBytes("data"));
+            writer.Write(bitDepth / 8 * totalSampleCount);
+        }
+
+        internal static void Record()
+        {
+            PvRecorder recorder = PvRecorder.Create(-1, 512);
+
+            BinaryWriter outputFileWriter = new BinaryWriter(new FileStream("test.wav", FileMode.OpenOrCreate, FileAccess.Write));
+
+            int totalSamplesWritten = 0;
+
+            recorder.Start();
+
+            List<short> samples = new List<short>();
+
+            for (int i = 0; i < 200; i++)
+            {
+                var pcm = recorder.Read();
+                foreach (short item in pcm)
+                {
+                    samples.Add(item);
+                    outputFileWriter.Write(item);
+                    Console.WriteLine(item);
+                }
+                totalSamplesWritten += pcm.Length;
+            }
+
+            recorder.Stop();
+
+            WriteWavHeader(outputFileWriter, 1, 16, 16000, totalSamplesWritten);
+            outputFileWriter.Flush();
+            outputFileWriter.Dispose();
+            outputFileWriter.Close();
+
+#if DEBUG
+            File.WriteAllLines("samples.txt", samples.ConvertAll<string>(delegate (short s) { return s.ToString(); }));
+#endif
+
+        }
+
+        internal static string Listen()
+        {
+            IamAuthenticator ibmAuth = new(
+                apikey: "wAGsOmkRnLSKJcHKicbFo4o5soviMPbQ9X5D1iwVB3oz"
+                );
+
+            SpeechToTextService textService = new(ibmAuth);
+            textService.SetServiceUrl("https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/95aee09a-11db-4b32-afd1-8dc3e9597133");
+
+            var textResult = textService.Recognize(new MemoryStream(File.ReadAllBytes("test.wav")), "audio/wav");
+
+            JObject response = JObject.Parse(textResult.Response);
+
+            return response["results"][0]["alternatives"][0]["transcript"].ToString();
+        }
+
         // Audio Output
         internal static int Speak(string sentence)
         {
@@ -57,9 +155,8 @@ namespace ANNA.Interaction
                     speechResult.Result.Close();
                 }
 
-                // Initiate Audio Service
-                InitAudioDevice();
 
+                //InitAudioDevice();
                 Music audio = LoadMusicStream("anna.wav");
                 PlayMusicStream(audio);
 

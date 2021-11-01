@@ -43,7 +43,7 @@ namespace ANNA
             return $"00_reforcelabs_anna_{GetLinkerTimestampUtc(Assembly.GetExecutingAssembly()).Ticks / 12}";
         }
 
-        private static string[] builtinCommands = { "hello", "from", "user", "ANEID", "search", "time", "meaning" };
+        internal static string[] builtinCommands = { "hello", "from", "user", "ANEID", "search", "time", "meaning" };
 
         protected internal static void RunANNA(string input, string[] args)
         {
@@ -52,6 +52,8 @@ namespace ANNA
             if (Output.directInput)
                 Output.PushResponse(new Response("Direct Input Mode"));
 #endif
+
+            Output.PushResponse(new Response("ANNA Initialized"));
 
             // Built-In Commands
             if (builtinCommands.Any(input.Contains))

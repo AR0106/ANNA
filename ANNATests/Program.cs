@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Threading;
 
 namespace ANNATests
 {
@@ -66,6 +67,18 @@ namespace ANNATests
             var test = ANNA.Data.DataSorting.Sort(people, "age");*/
 
             //ANNA.BasicCommands.Dictionary.GetDefinition("general", "en_US");
+
+            Output.Voice();
+            Thread.Sleep(1000);
+            if (Output.MostRecentResponseIndex > -1)
+            {
+                Console.WriteLine((string)Output.MostRecentResponse.response);
+            }
+            else
+            {
+                Console.Write("I'm Sorry, I didn't get that");
+            }
+            Console.ReadLine();
         }
     }
 }
