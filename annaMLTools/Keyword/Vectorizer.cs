@@ -35,7 +35,7 @@ namespace AnnaMLTools.Keyword
             {
                 throw new VectorizerNotInitialized();
             }
-            List<DistanceTo> LDistances = new();
+            List<DistanceTo> LDistances = new List<DistanceTo>();
             foreach (var word in sentence.words_noUseless)
             {
                 var closest = vocab.Distance(word, numOfClosestWords);

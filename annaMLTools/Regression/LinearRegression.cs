@@ -44,8 +44,8 @@ namespace AnnaMLTools.Regression
 
         public static void TrainLinearModel(List<double> xValues, List<double> yValues)
         {
-            xyValues = new();
-            xSquaredValues = new();
+            xyValues = new List<double>();
+            xSquaredValues = new List<double>();
             // Verifies xValues and yValues have the Same Amount of Values
             if (xValues.Count != yValues.Count)
             {
@@ -70,8 +70,8 @@ namespace AnnaMLTools.Regression
 
         public static void TrainPolynomialModel(List<double> xValues, List<double> yValues)
         {
-            xyValues = new();
-            xSquaredValues = new();
+            xyValues = new List<double>();
+            xSquaredValues = new List<double>();
             // Verifies xValues and yValues have the Same Amount of Values
             if (xValues.Count != yValues.Count)
             {
@@ -112,8 +112,8 @@ namespace AnnaMLTools.Regression
                 throw new NumberOfValuesNotEqualException(xValues.Count, numOfDataElements);
             }
 
-            List<double> predictedValues = new();
-            errorList = new();
+            List<double> predictedValues = new List<double>();
+            errorList = new List<double>();
 
             for (int i = 0; i < numOfDataElements; i++)
             {

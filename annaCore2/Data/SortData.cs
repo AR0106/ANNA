@@ -27,7 +27,7 @@ namespace ANNA.Data
         }
         public static List<T> Sort<T>(Array unsortedList, string property, bool isAscending = true)
         {
-            List<T> UnsortedList = new();
+            List<T> UnsortedList = new List<T>();
 
             foreach (var item in unsortedList)
             {

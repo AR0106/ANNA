@@ -21,7 +21,7 @@ namespace ANNA.Interaction
         public static bool generatedOutput = false;
 
         // Program Response Output
-        public static List<Response> Responses = new();
+        public static List<Response> Responses = new List<Response>();
 
         public static int MostRecentResponseIndex
         {
@@ -118,11 +118,11 @@ namespace ANNA.Interaction
 
         internal static string Listen()
         {
-            IamAuthenticator ibmAuth = new(
+            IamAuthenticator ibmAuth = new IamAuthenticator(
                 apikey: "wAGsOmkRnLSKJcHKicbFo4o5soviMPbQ9X5D1iwVB3oz"
                 );
 
-            SpeechToTextService textService = new(ibmAuth);
+            SpeechToTextService textService = new SpeechToTextService(ibmAuth);
             textService.SetServiceUrl("https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/95aee09a-11db-4b32-afd1-8dc3e9597133");
 
             var textResult = textService.Recognize(new MemoryStream(File.ReadAllBytes("test.wav")), "audio/wav");
@@ -138,11 +138,11 @@ namespace ANNA.Interaction
             try
             {
                 // Initiate IBM Watson TTS Service
-                IamAuthenticator ibmAuth = new(
+                IamAuthenticator ibmAuth = new IamAuthenticator(
                     apikey: "WpUJamCM8z2Q_-X5i283MIeXodlGY2vJahX7rasOW6ae"
                     );
 
-                TextToSpeechService speechService = new(ibmAuth);
+                TextToSpeechService speechService = new TextToSpeechService(ibmAuth);
                 speechService.SetServiceUrl("https://api.us-south.text-to-speech.watson.cloud.ibm.com/instances/bbfeff9a-0fa9-48db-9ee5-4a291306bc0a");
 
                 var speechResult = speechService.Synthesize(sentence, "audio/wav", "en-US_AllisonV3Voice");
@@ -204,9 +204,9 @@ namespace ANNA.Interaction
             }
 
             // Default ML Behavior
-            List<MLOutput> LFrequencies = new();
+            List<MLOutput> LFrequencies = new List<MLOutput>();
 
-            List<Tokenizer.Sentence> extensionSentences = new();
+            List<Tokenizer.Sentence> extensionSentences = new List<Tokenizer.Sentence>();
 
             // Encodes Each Initiation Sentence From the Extension and Puts it into a Tokenized Sentence List
             foreach (var sentence in extension.ExampleInitSentences)
