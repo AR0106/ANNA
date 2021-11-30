@@ -103,12 +103,12 @@ namespace ANNA
 
                     IEnumerable<Type> extensionTypes = AppDomain.CurrentDomain.GetAssemblies()
                         .SelectMany(s => s.GetTypes())
-                        .Where(p => typeof(IAnnaExtension).IsAssignableFrom(p) && !p.IsInterface && !p.IsAbstract);
+                        .Where(p => typeof(Extension).IsAssignableFrom(p) && !p.IsInterface && !p.IsAbstract);
 
                     // Instatiates Each Extension
                     foreach (var extensionType in extensionTypes)
                     {
-                        var extInstance = (IAnnaExtension)Activator.CreateInstance(extensionType);
+                        var extInstance = (IAnnaCommand)Activator.CreateInstance(extensionType);
 
                         // Checks if it is the Correct Command
                         if (extInstance.SingleWordActions().Any(input.Contains))

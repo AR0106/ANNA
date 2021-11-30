@@ -196,7 +196,7 @@ namespace ANNA.Interaction
         }
 
         // Machine Learning Action Output
-        public static string ProcessInput(string Input, int broadness, Extension extension)
+        public static string ProcessInput(string Input, int broadness, Command extension)
         {
             if (directInput)
             {

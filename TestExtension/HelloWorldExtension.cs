@@ -3,7 +3,7 @@ using System;
 
 namespace TestExtension
 {
-    public class HelloWordExtension : IAnnaExtension
+    public class HelloWordExtension : IAnnaCommand
     {
         public string[] ExampleInitSentences()
         {
@@ -29,7 +29,7 @@ namespace TestExtension
             return Guid.NewGuid();
         }
 
-        Extension IAnnaExtension.AnnaExtension()
+        Command IAnnaCommand.AnnaExtension()
         {
             throw new NotImplementedException();
         }

@@ -1,16 +1,15 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 
 namespace ANNA
 {
-    public interface IAnnaExtension
+    public interface IAnnaCommand
     {
         dynamic OnRun(string[] args);
-
-        Extension AnnaExtension();
 
         string[] SingleWordActions();
 
@@ -19,6 +18,8 @@ namespace ANNA
 
     public class Extension
     {
+        public List<IAnnaCommand> Commands;
+
         public string Name
         {
             get; set;
@@ -48,16 +49,6 @@ namespace ANNA
         {
             get => String.Concat(Name.Trim().ToLower().Where(c => !Char.IsWhiteSpace(c)));
         }
-
-        public string[] SingleWordActions
-        {
-            get; set;
-        }
-
-        public string[] ExampleInitSentences
-        {
-            get; set;
-        }
     }
 
     internal class Extensions
@@ -78,7 +69,7 @@ namespace ANNA
 
             System.IO.Compression.ZipFile.ExtractToDirectory(extension.ANEID.ToString() + ".zip", Environment.CurrentDirectory + "/extensions/" + extension.ANEID.ToString());
 
-            var interfaceType = typeof(IAnnaExtension);
+            var interfaceType = typeof(IAnnaCommand);
             var all = AppDomain.CurrentDomain.GetAssemblies()
               .SelectMany(x => x.GetTypes())
               .Where(x => interfaceType.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
@@ -87,14 +78,12 @@ namespace ANNA
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.TypeNameHandling = TypeNameHandling.None;
 
-            Extension ext = new Extension
+            Extension ext = new Extension()
             {
                 Name = extension.Name,
                 Author = extension.Author,
                 Published = extension.Published,
-                Link = extension.Link,
-                SingleWordActions = extension.SingleWordActions,
-                ExampleInitSentences = extension.ExampleInitSentences
+                Link = extension.Link
             };
 
             var json = JsonConvert.SerializeObject(ext, Formatting.Indented);
