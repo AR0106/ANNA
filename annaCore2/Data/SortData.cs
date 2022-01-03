@@ -39,8 +39,7 @@ namespace ANNA.Data
             if (isAscending)
             {
                 return UnsortedList.OrderBy(p => sortProperty.GetValue(p, null)).ToList();
-            }
-            else
+            } else
             {
                 return UnsortedList.OrderByDescending(p => sortProperty.GetValue(p, null)).ToList();
             }

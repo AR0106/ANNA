@@ -17,7 +17,7 @@ namespace ANNA
 
         public static DateTime GetLinkerTimestampUtc(Assembly assembly)
         {
-            var location = assembly.Location;
+            string location = assembly.Location;
             return GetLinkerTimestampUtc(location);
         }
 
@@ -25,16 +25,16 @@ namespace ANNA
         {
             const int peHeaderOffset = 60;
             const int linkerTimestampOffset = 8;
-            var bytes = new byte[2048];
+            byte[] bytes = new byte[2048];
 
             using (var file = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
                 file.Read(bytes, 0, bytes.Length);
             }
 
-            var headerPos = BitConverter.ToInt32(bytes, peHeaderOffset);
-            var secondsSince1970 = BitConverter.ToInt32(bytes, headerPos + linkerTimestampOffset);
-            var dt = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            Int32 headerPos = BitConverter.ToInt32(bytes, peHeaderOffset);
+            Int32 secondsSince1970 = BitConverter.ToInt32(bytes, headerPos + linkerTimestampOffset);
+            DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             return dt.AddSeconds(secondsSince1970);
         }
 
@@ -80,7 +80,7 @@ namespace ANNA
                         return;
 
                     case "time":
-                        Output.PushResponse(new Response($"It's {DateTime.Now.Hour}:{DateTime.Now.Minute}"));
+                        Output.PushResponse(new Response($"It's {DateTime.Now.ToShortTimeString()}"));
                         return;
 
                     case "meaning":

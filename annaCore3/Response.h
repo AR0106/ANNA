@@ -1,27 +1,31 @@
 #pragma once
-#include <stdio.h>
-#include <time.h>
+#include <cstdio>
+#include <ctime>
 #include <string>
+#include <chrono>
 
-namespace Interaction 
+#include "AnnaExtension.h"
+
+namespace AnnaInteraction 
 {
 	class Response
 	{
 	private:
-		time_t creationTime;
+		static time_t creationTime;
 
-		std::string extensionID;
-		std::string responseID;
+		static std::string extensionID;
+		static std::string responseID;
 
-		std::string response;
+		static std::string response;
 
 	public:
 		time_t getTime();
 
-		std::string getExtensionID();
-		std::string getResponseID();
+		static std::string getExtensionID();
+		static std::string getResponseID();
+		static std::string getResponse();
 
-		Response(std::string aiResponse);
-		~Response();
+		Response(AnnaExtensions::Extension extension, std::string aiResponse);
+		virtual ~Response();
 	};
 }

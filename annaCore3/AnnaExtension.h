@@ -1,9 +1,12 @@
 #pragma once
 #include <string>
 #include <vector>
-#include <time.h>
+#include <ctime>
 
-namespace Extensions
+#include "Helper.hpp"
+#include "Core.h"
+
+namespace AnnaExtensions
 {
 	class ICommand
 	{
@@ -18,18 +21,18 @@ namespace Extensions
 		virtual std::vector<std::string> ExampleSentences() = 0;
 	};
 
-	class Extenion
+	class Extension
 	{
 	private:
-		const std::string name;
-		const std::string author;
-		const std::string aneid;
+		std::string name;
+		std::string author;
+		std::string aneid;
 
-		const std::string uri;
+		std::string uri;
 
-		const std::string extensionName;
+		std::string extensionName;
 
-		const time_t timePublished;
+		time_t timePublished;
 
 	public:
 		std::vector<ICommand> commands;
@@ -43,6 +46,15 @@ namespace Extensions
 		std::string getExtensionName();
 
 		time_t getPublishedTime();
+
+		Extension(std::string _name, std::string _author, std::string _extensionName);
+		~Extension();
+	};
+
+	class Extensions
+	{
+	public:
+		int InstallExtension();
 	};
 }
 

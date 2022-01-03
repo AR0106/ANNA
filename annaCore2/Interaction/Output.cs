@@ -1,4 +1,4 @@
-﻿using AnnaMLTools.General;
+﻿ using AnnaMLTools.General;
 using AnnaMLTools.Keyword;
 using IBM.Cloud.SDK.Core.Authentication.Iam;
 using IBM.Watson.SpeechToText.v1;
@@ -48,14 +48,11 @@ namespace ANNA.Interaction
 #if DEBUG
             Console.WriteLine(command);
 #endif
-
-            if (command.ToLower().Split(' ').Contains("anna"))
-            {
-                if (command.ToLower().Split(' ').Contains("time"))
-                {
+            
+             if (command.ToLower().Split(' ').Contains("time"))
+             {
                     SendCommand("time", null);
-                }
-            }
+             }
         }
 
         internal static void WriteWavHeader(BinaryWriter writer, ushort channelCount, ushort bitDepth, int sampleRate, int totalSampleCount)
@@ -196,7 +193,7 @@ namespace ANNA.Interaction
         }
 
         // Machine Learning Action Output
-        public static string ProcessInput(string Input, int broadness, Command extension)
+        public static string ProcessInput(string Input, int broadness, Extension extension)
         {
             if (directInput)
             {
@@ -209,11 +206,14 @@ namespace ANNA.Interaction
             List<Tokenizer.Sentence> extensionSentences = new List<Tokenizer.Sentence>();
 
             // Encodes Each Initiation Sentence From the Extension and Puts it into a Tokenized Sentence List
-            foreach (var sentence in extension.ExampleInitSentences)
+            foreach (var command in extension.Commands)
             {
-                foreach (var item in Tokenizer.Encode(sentence))
+                foreach (var sentence in command.ExampleInitSentences())
                 {
-                    extensionSentences.Add(item);
+                    foreach (var item in Tokenizer.Encode(sentence))
+                    {
+                        extensionSentences.Add(item);
+                    }
                 }
             }
 
