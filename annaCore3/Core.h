@@ -17,11 +17,12 @@ namespace AnnaCore
 	public:
 		static std::string GenerateANEID(std::string author, std::string extName, time_t compiledTime);
 		
-		void RunANNA(std::string input, std::array<std::string, sizeof(std::string)> args);
+		void InitANNA();
+		void RunANNA(std::string input, std::vector<std::string> *args);
+
+		static AnnaExtensions::Extension baseExtension;
 
 	protected:
-		std::array<std::string, 7> colour{ "hello", "from", "user", "ANEID", "search", "time", "meaning"};
-
-
+		std::array<std::string, 7> baseCommands{ "hello", "from", "user", "ANEID", "search", "time", "meaning"};
 	};
 }

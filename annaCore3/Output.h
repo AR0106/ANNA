@@ -26,13 +26,13 @@ namespace AnnaInteraction
 
 		AnnaInteraction::Response mostRecentResponse;
 
-		std::vector<AnnaInteraction::Response> responses;
+		static std::vector<AnnaInteraction::Response> responses;
 
 	public:
 		// Toggles Direct Input for Debugging - DEVMODE ONLY
 		void setDirectInput(bool directInput);
 		// Gets Whether Direct Input is Enabled or not - DEVMODE ONLY
-		bool getDirectInput();
+		static bool getDirectInput();
 
 		// Gets Index of Most Recent Response for 
 		int getMostRecentReponseIndex();
@@ -41,7 +41,7 @@ namespace AnnaInteraction
 
 		std::string ProcessInput(std::string input);
 
-		int SendCommand(std::string* command, std::string args[]);
-		int PushResponse(AnnaInteraction::Response* response);
+		static int SendCommand(std::string* command, std::string args[]);
+		static int PushResponse(AnnaInteraction::Response* response);
 	};
 }
