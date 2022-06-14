@@ -22,26 +22,19 @@ void AnnaCore::Core::InitANNA()
 
 void AnnaCore::Core::RunANNA(std::string input, std::vector<std::string> *args)
 {
+#if DEBUG
 	if (AnnaInteraction::Output::getDirectInput())
 	{
 		AnnaInteraction::Output::PushResponse(new AnnaInteraction::Response(baseExtension, "Direct Input Mode"));
 	}
+#endif
 
 	AnnaInteraction::Output::PushResponse(new AnnaInteraction::Response(baseExtension, "ANNA Initialized"));
 
 	// Checks if Input is a Base Command
 	if (std::find(baseCommands.begin(), baseCommands.end(), input) != baseCommands.end())
 	{
-		std::hash<std::string> hasher;
-
-		std::vector<size_t> baseCommandHashes;
-
-		for (std::string& command : baseCommands)
-		{
-			baseCommandHashes.push_back(hasher(command));
-		}
-
-		switch (hasher(input))
+		switch (Helper::StringOperations::StrToUInt("hello"))
 		{
 		default:
 			break;

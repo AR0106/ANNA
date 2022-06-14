@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
+#include <string>
 
 #define FILE_SUCCESS 000
 #define FILE_FAILURE 001
@@ -121,6 +122,14 @@ namespace Helper
 
 				throw e;
 			}
+		}
+	};
+
+	class StringOperations {
+	public:
+		static constexpr unsigned int StrToUInt(const char* str, int h = 0)
+		{
+			return !str[h] ? 5381 : (StrToUInt(str, h + 1) * 33) ^ str[h];
 		}
 	};
 };
